@@ -1,0 +1,4 @@
+# Nothing in here is a web page.
+<FilesMatch "\.(php|phtml|phar)$">
+  Require all denied
+</FilesMatch>

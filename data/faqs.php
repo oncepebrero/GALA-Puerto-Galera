@@ -1,0 +1,21 @@
+<?php
+return [
+    ['q' => 'How do I get to Puerto Galera from Manila?',
+     'a' => 'The reference summary describes a bus from Manila (Buendia or Cubao) to Batangas Port, a ferry across to Puerto Galera, then a tricycle or electric tuk-tuk. See Getting there for the reported operators and estimates, and confirm them before you travel.'],
+    ['q' => 'Are the fares and fees exact?',
+     'a' => 'They are the estimates gathered for GALÁ from the Experience Puerto Galera reference material. Operators and the Tourism Office set the current amounts, so check before you pay or book.'],
+    ['q' => 'Do I need to register before I visit?',
+     'a' => 'The reference summary mentions PG PASS registration, which issues a tourist QR code, and an environmental fee at Balatero Port. Ask the Tourism Office how registration works for your dates.'],
+    ['q' => 'Can I rely on the dive-site descriptions?',
+     'a' => 'Treat them as orientation only. Depth, current, visibility and suitability change, and only a qualified local dive operator can brief you for the day. A site described as beginner-friendly can still be unsuitable on a given day.'],
+    ['q' => 'Can I visit Mangyan communities?',
+     'a' => 'Visits are the community’s decision. Arrange them through community representatives or the Tourism Office, ask before taking any photograph, and do not treat a visit as entertainment. GALÁ publishes no community photographs or cultural material.'],
+    ['q' => 'Why are some pictures illustrations, and why is the map pin only approximate?',
+     'a' => 'Some places do not have an official photo yet, so GALÁ shows an illustration of what the place is about. Map buttons search by place name, so the pin is the map service’s best match. Dive sites are underwater, so the map takes you to the nearest landmark.'],
+    ['q' => 'How is visitor feedback handled?',
+     'a' => 'Ratings, suggestions and concerns go to a moderation queue and appear publicly only after staff approve them. GALÁ asks for a rating, an optional comment and an optional nickname. It does not ask for an email address or phone number.'],
+    ['q' => 'Who runs GALÁ?',
+     'a' => 'GALÁ is a student research project on tourism discovery in Puerto Galera. It is not an official municipal website. Its content was gathered from Experience Puerto Galera and related references.'],
+    ['q' => 'How do I report a mistake or ask for a listing to be removed?',
+     'a' => 'Use the feedback form and choose “Concern”, or contact the Tourism Office using the reported contact details.'],
+];

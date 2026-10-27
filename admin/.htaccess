@@ -1,0 +1,2 @@
+# Staff area: never index.
+Header set X-Robots-Tag "noindex, nofollow"

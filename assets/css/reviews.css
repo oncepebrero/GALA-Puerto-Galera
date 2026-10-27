@@ -1,0 +1,104 @@
+/* ==========================================================================
+   GALÁ visitor moments: photo-first mosaic (home strip + All reviews page) and the review pop-up.
+   ========================================================================== */
+.rvm{--rv-gap:clamp(.6rem,1.2vw,1rem);--rv-row:clamp(190px,19vw,270px);--rv-col:clamp(230px,24vw,350px);--rv-r:22px}
+
+/* ---- the card ---- */
+.rv{position:relative;isolation:isolate;overflow:hidden;border-radius:var(--rv-r);color:#fff;background:var(--abyss);box-shadow:0 18px 38px -26px rgba(6,35,58,.7);min-width:0;min-height:0;transition:transform .45s var(--ease),box-shadow .45s}
+.rv:hover,.rv:focus-within{transform:translateY(-4px);box-shadow:0 28px 46px -26px rgba(6,35,58,.8)}
+.js .rv[data-reveal].is-in:hover,.js .rv[data-reveal].is-in:focus-within{transform:translateY(-4px)}
+.rv--tall{grid-row:span 2}.rv--wide{grid-column:span 2}
+.rv__img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;z-index:-2;transition:transform 1.1s var(--ease)}
+.rv:hover .rv__img{transform:scale(1.06)}
+.rv__shade{position:absolute;inset:0;z-index:-1;background:linear-gradient(180deg,rgba(6,35,58,0) 38%,rgba(6,35,58,.55) 68%,rgba(5,27,44,.92) 100%)}
+.rv--photo .rv__shade{background:linear-gradient(180deg,rgba(6,35,58,0) 34%,rgba(6,35,58,.6) 66%,rgba(5,27,44,.94) 100%)}
+.rv__body{position:absolute;inset:auto 0 0 0;padding:1rem 1.15rem 1.1rem;display:flex;flex-direction:column;align-items:flex-start;gap:.15rem;pointer-events:none}
+.rv__av{display:grid;place-items:center;width:2.9rem;height:2.9rem;margin-bottom:.35rem;border-radius:50%;border:3px solid #fff;background:var(--sun);color:var(--abyss);font:700 1.1rem/1 var(--font-display);box-shadow:0 6px 14px -6px rgba(0,0,0,.5)}
+.rv__name{margin:0;font:800 .86rem/1.2 var(--font-display);letter-spacing:.09em;text-transform:uppercase;color:#fff}
+.rv__meta{display:flex;flex-wrap:wrap;align-items:center;gap:.1rem .55rem;margin:.05rem 0 .2rem;font-size:.82rem;color:rgba(255,255,255,.88)}
+.rv__stars{color:var(--sun);letter-spacing:.06em;white-space:nowrap}.rv__stars i{font-style:normal;color:rgba(255,255,255,.35)}
+.rv__place{font-weight:600}
+.rv__text{margin:0;font-size:.98rem;line-height:1.42;color:#fff;display:-webkit-box;-webkit-box-orient:vertical;-webkit-line-clamp:2;overflow:hidden;text-shadow:0 1px 8px rgba(0,0,0,.35)}
+.rv--wide .rv__text{-webkit-line-clamp:3}.rv--tall .rv__text{-webkit-line-clamp:5}
+.rv__text--mute{color:rgba(255,255,255,.8);font-style:italic}
+/* the whole card opens the review; it sits under the text so it is one big target */
+.rv__open{position:absolute;inset:0;z-index:2;width:100%;border:0;background:transparent;cursor:pointer;border-radius:inherit}
+.rv__open:focus-visible{outline:3px solid var(--sun);outline-offset:-5px}
+
+/* text-only cards get a colour instead of a photo */
+.rv--t0{background:linear-gradient(150deg,var(--deep),var(--abyss))}
+.rv--t1{background:linear-gradient(150deg,var(--lagoon),var(--ocean))}
+.rv--t2{background:linear-gradient(150deg,var(--palm),var(--palm-deep))}
+.rv--t3{background:linear-gradient(150deg,var(--coral),#c2362c)}
+.rv--t0 .rv__shade,.rv--t1 .rv__shade,.rv--t2 .rv__shade,.rv--t3 .rv__shade{background:none}
+.rv__mark{position:absolute;right:.9rem;top:-.35rem;z-index:-1;font:700 7.5rem/1 var(--font-display);color:rgba(255,255,255,.16)}
+.rv:not(.rv--photo) .rv__body{inset:0;justify-content:flex-end;padding:1.2rem 1.25rem}
+.rv:not(.rv--photo) .rv__text{font:600 1.08rem/1.45 var(--font-text);-webkit-line-clamp:4;text-shadow:none}
+.rv--wide:not(.rv--photo) .rv__text{font-size:1.2rem;-webkit-line-clamp:5}
+.rv--tall:not(.rv--photo) .rv__text{font-size:1.3rem;-webkit-line-clamp:9}
+.rv:not(.rv--photo) .rv__av{background:#fff}
+
+/* ---- home: a two-row strip that scrolls sideways ---- */
+.rvm-strip{position:relative}
+.rvm-track{display:grid;grid-template-rows:repeat(2,var(--rv-row));grid-auto-flow:column dense;grid-auto-columns:var(--rv-col);gap:var(--rv-gap);overflow-x:auto;overscroll-behavior-x:contain;scroll-snap-type:x proximity;scrollbar-width:none;padding:.5rem max(var(--gut),calc((100vw - var(--hm-w,1280px))/2)) 1.2rem;scroll-padding-inline:max(var(--gut),calc((100vw - var(--hm-w,1280px))/2))}
+.rvm-track::-webkit-scrollbar{display:none}
+.rvm-track .rv{scroll-snap-align:start}
+.rvm-track:focus-visible{outline:3px solid var(--sun);outline-offset:-3px}
+.rvm-nav{display:flex;align-items:center;justify-content:center;gap:.8rem;margin-top:.4rem}
+.rvm-nav button{display:grid;place-items:center;width:3.4rem;height:3.4rem;border-radius:50%;border:2px solid var(--abyss);background:#fff;color:var(--abyss);cursor:pointer;transition:transform .3s var(--spring),background .25s,opacity .25s}
+.rvm-nav button:hover:not(:disabled){background:var(--sun);transform:scale(1.08)}
+.rvm-nav button:disabled{opacity:.35;cursor:default;border-color:var(--ink-2)}
+.rvm-nav button[data-rvm="-1"] .ico{transform:rotate(180deg)}
+.rvm-nav__all{margin-left:.6rem}
+
+/* ---- All reviews page: the same cards in a wrapping mosaic ---- */
+.rvm-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));grid-auto-rows:var(--rv-row);grid-auto-flow:row dense;gap:var(--rv-gap)}
+.rvp-sum{display:grid;grid-template-columns:auto minmax(0,1fr);gap:1.2rem 2.2rem;align-items:center;margin:0 0 1.6rem;padding:1.3rem 1.6rem;border-radius:var(--rv-r);background:#fff;border:1px solid var(--line)}
+.rvp-sum__big{display:flex;align-items:center;gap:1rem}
+.rvp-sum__big b{font:800 3.4rem/1 var(--font-display);letter-spacing:-.04em}
+.rvp-sum__big small{display:block;color:var(--ink-2)}
+.rvp-sum__stars{color:var(--sun);font-size:1.25rem;letter-spacing:.05em}.rvp-sum__stars i{font-style:normal;color:rgba(6,35,58,.18)}
+.rvp-bars{list-style:none;margin:0;padding:0;display:grid;gap:.3rem}
+.rvp-bars a{display:grid;grid-template-columns:2.6rem 1fr 2.4rem;align-items:center;gap:.7rem;color:var(--ink);text-decoration:none;font-size:.92rem;border-radius:8px;padding:.1rem .3rem}
+.rvp-bars a:hover{background:var(--foam)}.rvp-bars a[aria-current="true"]{background:var(--mist);font-weight:700}
+.rvp-bars i{display:block;height:.55rem;border-radius:99px;background:rgba(6,35,58,.1);overflow:hidden}.rvp-bars i::after{content:"";display:block;height:100%;width:var(--w,0);background:var(--sun);border-radius:99px}
+.rvp-bars em{font-style:normal;color:var(--ink-2);text-align:right}
+.rvp-filters{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem .8rem;margin:0 0 1.4rem}
+.rvp-filters form{display:flex;flex-wrap:wrap;align-items:center;gap:.6rem;margin-left:auto}
+.rvp-filters select{font:600 .95rem var(--font-text);padding:.55rem 2rem .55rem .9rem;border-radius:999px;border:2px solid var(--ink);background:#fff;color:var(--ink);max-width:16rem}
+.rvp-count{margin:0 0 1rem;color:var(--ink-2)}
+.rvp-pager{display:flex;flex-wrap:wrap;justify-content:center;align-items:center;gap:.5rem;margin:2.2rem 0 0}
+.rvp-pager a,.rvp-pager span{display:grid;place-items:center;min-width:2.8rem;height:2.8rem;padding:0 .9rem;border-radius:999px;border:2px solid var(--ink);color:var(--ink);font-weight:700;text-decoration:none;background:#fff}
+.rvp-pager a:hover{background:var(--sun)}.rvp-pager [aria-current="page"]{background:var(--abyss);color:#fff}.rvp-pager .is-gap{border-color:transparent;background:none}
+.rvp-cta{margin-top:2.4rem;display:flex;flex-wrap:wrap;gap:1rem 1.6rem;align-items:center;justify-content:space-between;padding:1.4rem 1.8rem;border-radius:var(--rv-r);background:linear-gradient(120deg,var(--abyss),var(--deep));color:#fff}
+.rvp-cta h2{font-size:1.5rem;margin:0 0 .2rem}.rvp-cta p{margin:0;color:rgba(255,255,255,.88)}
+
+/* ---- pop-up with the full review ---- */
+.rv-dialog{border:0;padding:0;background:transparent;max-width:min(94vw,56rem);width:100%;max-height:92vh;overflow:visible;color:var(--ink)}
+.rv-dialog::backdrop{background:rgba(5,27,44,.78);backdrop-filter:blur(4px)}
+.rv-dialog__card{position:relative;display:flex;max-height:90vh;border-radius:26px;background:#fff;overflow:hidden;box-shadow:0 40px 80px -30px rgba(0,0,0,.7)}
+.rv-dialog__fig{margin:0;flex:1.2;min-width:0;background:var(--abyss)}.rv-dialog__fig[hidden]{display:none}
+.rv-dialog__fig img{width:100%;height:100%;object-fit:cover;display:block;max-height:90vh}
+.rv-dialog__body{flex:1;min-width:0;padding:2rem 2rem 1.8rem;overflow:auto;align-self:center;max-height:90vh}
+.rv-dialog__stars{margin:0 0 .4rem;font-size:1.3rem;color:var(--sun);letter-spacing:.06em}.rv-dialog__stars i{font-style:normal;color:rgba(6,35,58,.18)}
+.rv-dialog h2{margin:0;font-size:1.5rem}
+.rv-dialog__sub{margin:.2rem 0 1rem;color:var(--ink-2)}.rv-dialog__sub a{color:var(--deep);font-weight:700}
+.rv-dialog blockquote{margin:0;font:500 1.15rem/1.6 var(--font-text);white-space:pre-line;overflow-wrap:anywhere}
+.rv-dialog__close{position:absolute;top:.8rem;right:.8rem;z-index:3;display:grid;place-items:center;width:2.8rem;height:2.8rem;border-radius:50%;border:0;background:rgba(255,255,255,.92);color:var(--abyss);cursor:pointer;box-shadow:0 4px 14px -4px rgba(0,0,0,.4)}
+.rv-dialog__close:hover{background:var(--sun)}
+
+/* ---- screens ---- */
+@media (max-width:1000px){.rvm-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media (max-width:760px){
+  .rvm{--rv-row:clamp(170px,42vw,240px)}
+  .rvm-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .rvm-track{grid-auto-columns:clamp(200px,62vw,300px)}
+  .rvp-sum{grid-template-columns:1fr}
+  .rvp-filters form{margin-left:0;width:100%}
+  .rv-dialog__card{flex-direction:column;overflow:auto}.rv-dialog__fig img{max-height:42vh}.rv-dialog__body{align-self:stretch;max-height:none;overflow:visible;padding:1.4rem}
+}
+@media (max-width:480px){
+  .rvm-track .rv--wide{grid-column:span 1}
+  .rvm-grid{grid-template-columns:minmax(0,1fr)}.rvm-grid .rv--wide{grid-column:auto}.rvm-grid .rv--tall{grid-row:span 2}
+}
+@media (prefers-reduced-motion:reduce){.rv,.rv__img,.rvm-nav button{transition:none}.rv:hover{transform:none}}
